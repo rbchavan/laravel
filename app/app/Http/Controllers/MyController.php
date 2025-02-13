@@ -12,4 +12,4 @@ class MyController extends Controller
     {
         return view('profile');
     }
-}git@github.com:rbchavan/laravel.git
+}
