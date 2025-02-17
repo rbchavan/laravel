@@ -23,7 +23,8 @@ services:
     user: ${UID}:${GID}
     volumes:
       - ./app:/var/www/laravel
-      - ~/.ssh:/root/.ssh:ro 
+    ports:
+      - "5173:5173"   
     depends_on:
       - db
 

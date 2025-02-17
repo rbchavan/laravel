@@ -21,6 +21,8 @@ RUN apk add --no-cache \
         ttf-droid \
         ttf-freefont \
         ttf-liberation \
+        nodejs \
+        npm \   
 	;
 RUN set -eux; \
     install-php-extensions \

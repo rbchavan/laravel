@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Spatie\RouteAttributes\Attributes\Get;
+use App\Models\User;
 
+use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Middleware;
+
+    
 class MyController extends Controller
 {
-    #[Get('/profile')]
+    #[Get('/users')]
     public function profile()
     {
-        return view('profile');
+        $users = User::all();
+
+        return view('users', ['users' => $users]);
     }
 }
