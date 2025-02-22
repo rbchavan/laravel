@@ -9,7 +9,7 @@ use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
-class MyController extends Controller
+class UserController extends Controller
 {
     #[Get(uri: '/users', name: 'users.index')]
     public function profile()
@@ -70,4 +70,6 @@ class MyController extends Controller
 
         return response()->json(['success' => false, 'message' => 'User not found!']);
     }
+
+    
 }
