@@ -13,7 +13,7 @@
 
     <nav class="bg-gray-800 p-4 mb-6 shadow-lg border-b border-gray-700">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-amber-400">User Management</a>
+            <a href="#" class="text-2xl font-bold text-amber-400">{{ Route::is('playground.*') ? 'Posts' : 'Users' }}</a>
 
         </div>
     </nav>

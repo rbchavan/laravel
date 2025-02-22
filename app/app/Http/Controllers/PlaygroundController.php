@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Spatie\RouteAttributes\Attributes\Get;
 
 class PlaygroundController extends Controller
 {
     #[Get(uri: '/play', name: 'playground.index')]
-    public function profile(): Response
+    public function profile(): View
 
     {
+        $posts = Post::with('user')->simplePaginate(3);
 
-        $user = User::findOrFail(10);
-        $user->posts()->create([
-            'title' => 'My Second Post',
-            'content' => 'This is another post content.',
-        ]);
 
-        return new Response([
-            'message' => 'Post created successfully',
-        ]);
+
+        return view('playground', compact('posts'));
     }
 }
