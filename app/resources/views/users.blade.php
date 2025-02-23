@@ -81,10 +81,10 @@
                             <td class="border border-gray-600 px-4 py-2">{{ $user->id }}</td>
                             <td class="border border-gray-600 px-4 py-2">{{ $user->name }}</td>
                             <td class="border border-gray-600 px-4 py-2">{{ $user->email }}</td>
-                                                        <td class="border border-gray-600 px-4 py-2">
-                                <a href="{{ route('user.posts', ['id' => $user->id]) }}"
+                            <td class="border border-gray-600 px-4 py-2">
+                                <a href="{{ route('user.posts.index', ['id' => $user->id]) }}"
                                     class="bg-teal-400 text-white px-3 py-1 rounded inline-block">
-                                    <i class="fa-solid fa-eye"></i> Post({{$user->posts_count}})
+                                    <i class="fa-solid fa-eye"></i> Post({{ $user->posts_count }})
                                 </a>
                             </td>
 
