@@ -14,7 +14,7 @@ class UserController extends Controller
     #[Get(uri: '/users', name: 'users.index')]
     public function profile()
     {
-        $users = User::all();
+        $users = User::withCount('posts')->get();
 
         return view('users', ['users' => $users]);
     }

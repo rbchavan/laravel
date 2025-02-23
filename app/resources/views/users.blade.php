@@ -84,7 +84,7 @@
                                                         <td class="border border-gray-600 px-4 py-2">
                                 <a href="{{ route('user.posts', ['id' => $user->id]) }}"
                                     class="bg-teal-400 text-white px-3 py-1 rounded inline-block">
-                                    <i class="fa-solid fa-eye"></i> Show Post
+                                    <i class="fa-solid fa-eye"></i> Post({{$user->posts_count}})
                                 </a>
                             </td>
 
