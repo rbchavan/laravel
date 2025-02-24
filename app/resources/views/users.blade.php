@@ -22,7 +22,8 @@
         <h2 class="text-2xl font-semibold mb-4">All Users</h2>
 
         <div class="mb-4">
-            <button onclick="toggleCreateForm()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Create User</button>
+            <button onclick="toggleCreateForm()"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Create User</button>
         </div>
 
         <div id="createUserForm" class="hidden bg-gray-900 p-4 rounded-lg mb-6">
@@ -31,29 +32,34 @@
 
                 <div class="mb-4">
                     <label for="name" class="block text-white">Name</label>
-                    <input type="text" name="name" id="name" class="w-64 p-2 bg-gray-800 text-white rounded-lg" required value="{{ old('name') }}">
+                    <input type="text" name="name" id="name"
+                        class="w-64 p-2 bg-gray-800 text-white rounded-lg" required value="{{ old('name') }}">
                     <div id="nameError" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block text-white">Email</label>
-                    <input type="email" name="email" id="email" class="w-64 p-2 bg-gray-800 text-white rounded-lg" required value="{{ old('email') }}">
+                    <input type="email" name="email" id="email"
+                        class="w-64 p-2 bg-gray-800 text-white rounded-lg" required value="{{ old('email') }}">
                     <div id="emailError" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div class="mb-4">
                     <label for="password" class="block text-white">Password</label>
-                    <input type="password" name="password" id="password" class="w-64 p-2 bg-gray-800 text-white rounded-lg" required>
+                    <input type="password" name="password" id="password"
+                        class="w-64 p-2 bg-gray-800 text-white rounded-lg" required>
                     <div id="passwordError" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
                 <div class="mb-4">
                     <label for="password_confirmation" class="block text-white">Confirm Password</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-64 p-2 bg-gray-800 text-white rounded-lg" required>
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                        class="w-64 p-2 bg-gray-800 text-white rounded-lg" required>
                     <div id="passwordConfirmationError" class="text-red-500 text-sm mt-1"></div>
                 </div>
 
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Submit</button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Submit</button>
             </form>
         </div>
 
@@ -64,21 +70,31 @@
                         <th class="border border-gray-600 px-4 py-2 text-left">ID</th>
                         <th class="border border-gray-600 px-4 py-2 text-left">Name</th>
                         <th class="border border-gray-600 px-4 py-2 text-left">Email</th>
-                        <th class="border border-gray-600 px-4 py-2 text-left">Actions</th>
+                        <th class="border border-gray-600 px-4 py-2 text-center" colspan="2">Actions</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user)
-                    <tr class="border border-gray-700 odd:bg-gray-800 even:bg-gray-700" id="user-{{ $user->id }}">
-                        <td class="border border-gray-600 px-4 py-2">{{ $user->id }}</td>
-                        <td class="border border-gray-600 px-4 py-2">{{ $user->name }}</td>
-                        <td class="border border-gray-600 px-4 py-2">{{ $user->email }}</td>
-                        <td class="border border-gray-600 px-4 py-2">
-                            <button class="delete-user bg-red-400 text-white px-3 py-1 rounded" data-id="{{ $user->id }}">
-                                <i class="fa-solid fa-trash"></i> Delete
-                            </button>
-                        </td>
-                    </tr>
+                    @foreach ($users as $user)
+                        <tr class="border border-gray-700 odd:bg-gray-800 even:bg-gray-700"
+                            id="user-{{ $user->id }}">
+                            <td class="border border-gray-600 px-4 py-2">{{ $user->id }}</td>
+                            <td class="border border-gray-600 px-4 py-2">{{ $user->name }}</td>
+                            <td class="border border-gray-600 px-4 py-2">{{ $user->email }}</td>
+                            <td class="border border-gray-600 px-4 py-2">
+                                <a href="{{ route('user.posts.index', ['id' => $user->id]) }}"
+                                    class="bg-teal-400 text-white px-3 py-1 rounded inline-block">
+                                    <i class="fa-solid fa-eye"></i> Post({{ $user->posts_count }})
+                                </a>
+                            </td>
+
+                            <td class="border border-gray-600 px-4 py-2">
+                                <button class="delete-user bg-red-400 text-white px-3 py-1 rounded"
+                                    data-id="{{ $user->id }}">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
