@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,12 +9,12 @@ use Spatie\RouteAttributes\Attributes\Delete;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
-class UserController extends Controller
+class UserController
 {
     #[Get(uri: '/users', name: 'users.index')]
     public function profile()
     {
-        $users = User::withCount('posts')->get();
+        $users = User::withCount('posts')->latest()->get();
 
         return view('users', ['users' => $users]);
     }
@@ -70,6 +70,4 @@ class UserController extends Controller
 
         return response()->json(['success' => false, 'message' => 'User not found!']);
     }
-
-    
 }

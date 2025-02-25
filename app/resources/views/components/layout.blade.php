@@ -10,40 +10,66 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> <!-- Alpine.js -->
 </head>
 
-<body class="bg-gray-900 text-white p-6">
-
-    <nav class="bg-lime-300 p-4 mb-6 shadow-lg border-b border-gray-800">
+<body class="bg-gray-100 text-white p-6 flex flex-col min-h-screen">
+    <nav class="bg-gray-800 p-4 mb-6 shadow-lg border-b border-gray-800">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <!-- Left Side (Logo / Title) -->
-            <a href="#" class="text-2xl text-gray-800 hover:text-blue-200 transition duration-300">
-                {{ Route::is('user.posts.*') ? 'Posts' : 'Users' }}
+            <a href="#" class="text-2xl text-gray-100 hover:text-blue-200 transition duration-300">
+                User & Content Management System
             </a>
+            <ul class="flex space-x-4">
+                @guest
+                <li>
+                    <a href="{{ route('register.index') }}" class="text-gray-300 hover:text-white transition duration-300">
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('login') }}" class="text-gray-300 hover:text-white transition duration-300">
+                        Login
+                    </a>
+                </li>
+                @endguest
 
-            <!-- Right Side (Dropdown using Alpine.js) -->
-            <div class="relative" x-data="{ open: false }">
-                <!-- Menu Button -->
-                <button @click="open = !open" @click.away="open = false"
-                    class="text-gray-800 hover:text-blue-200 transition duration-300 px-4 py-2">
-                    Menu ▼
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div x-show="open"
-                    class="absolute right-0 mt-2 min-w-[150px] bg-white text-gray-900 rounded-lg shadow-lg"
-                    x-transition.opacity>
-                    <a href="{{ route('users.index') }}" class="block px-4 py-2 hover:bg-gray-200">Users</a>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Posts</a>
-                </div>
-            </div>
+                @auth
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-gray-300 hover:text-white transition duration-300">
+                            Logout
+                        </button>
+                    </form>
+                </li>
+                @endauth
+            </ul>
         </div>
     </nav>
 
-    <div class="container mx-auto">
-        {{ $slot }}
+    <!-- Main Content Wrapper -->
+    <div class="container mx-auto flex flex-grow space-x-4">
+    @auth
+        <!-- Sidebar -->
+        <aside class="w-1/4 bg-gray-800 text-white p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold text-center">Dashboard</h2>
+            <div class="mt-2 space-y-2">
+                <div class="bg-gray-200 py-4 shadow-md w-full flex justify-center text-black">
+                    <a href="{{ route('users.index') }}"> Users </a>
+                </div>
+
+
+
+
+        </aside>
+        @endauth
+
+        <!-- Main Content -->
+        <div class="flex-grow p-6 rounded-lg shadow-md">
+            {{ $slot }}
+        </div>
     </div>
 
     @vite('resources/js/app.js')
-
 </body>
+
+
 
 </html>

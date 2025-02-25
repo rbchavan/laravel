@@ -14,10 +14,11 @@ return [
      */
     'directories' => [
         app_path('Http/Controllers') => [
-            'middleware' => ['web']
+            'middleware' => ['web'],
         ],
-
-
+        app_path('Http/Controllers/Auth') => [
+            'middleware' => ['web', 'auth']
+        ],
     ],
 
     /*
