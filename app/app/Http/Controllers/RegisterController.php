@@ -41,7 +41,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($validated['password']);
         $user->save();
 
-        return redirect()->route('login.index');
+        return redirect()->route('login');
     }
 
 }

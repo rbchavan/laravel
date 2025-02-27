@@ -16,14 +16,14 @@ class UserPostController
     #[Post(uri: '/user/{id}/posts/create', name: 'user.posts.create')]
     public function createUserPosts(Request $request, int $id)
     {
-      
+
         $validated = $request->validate([
             'title' => 'required|string|min:10|max:255',
             'content' => 'required|string|min:10|max:500',
         ]);
-      
 
-        
+
+
         $user = User::findOrFail($id);
         $user->posts()->create([
             'title' => $validated['title'],
@@ -33,12 +33,11 @@ class UserPostController
         return redirect()->back()->with('success', 'Post created successfully!');
     }
 
-    #[Get(uri: '/user/posts/{id}', name: 'user.posts.index')]
+    #[Get(uri: '/user/posts/{user}', name: 'user.posts.index',middleware:['can:manageUser,user'])]
     #[Where('id', '\d+')]
-    public function getUserPosts($id)
+    public function getUserPosts(User $user)
     {
 
-        $user = User::withCount('posts')->findOrFail($id);
 
         $posts = $user->posts()->latest()->paginate(10);
 
