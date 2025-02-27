@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegisterationMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -40,6 +42,8 @@ class RegisterController extends Controller
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
         $user->save();
+
+        Mail::to($user->email)->send(new RegisterationMail($user));
 
         return redirect()->route('login');
     }
