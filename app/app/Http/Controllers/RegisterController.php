@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\WelcomeEmail;
 use App\Mail\RegisterationMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,7 +44,7 @@ class RegisterController extends Controller
         $user->password = Hash::make($validated['password']);
         $user->save();
 
-        Mail::to($user->email)->send(new RegisterationMail($user));
+        WelcomeEmail::dispatch($user);
 
         return redirect()->route('login');
     }

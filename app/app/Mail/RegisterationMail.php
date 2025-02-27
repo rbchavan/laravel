@@ -17,7 +17,7 @@ class RegisterationMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private User $user)
+    public function __construct(private string $name)
     {
        
     }
@@ -42,7 +42,7 @@ class RegisterationMail extends Mailable
         return new Content(
             view: 'emails.registration',
             with: [
-                'user' => $this->user,
+                'name' => $this->name,
             ],
         );
     }
