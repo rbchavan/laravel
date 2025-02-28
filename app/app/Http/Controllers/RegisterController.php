@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\WelcomeEmail;
-use App\Mail\RegisterationMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -16,7 +14,7 @@ class RegisterController extends Controller
     #[Get(uri: '/register', name: 'register.index')]
     public function register()
     {
-        
+
 
         return view('auth.register');
     }
@@ -42,11 +40,11 @@ class RegisterController extends Controller
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
+        $user->assignRole('user');
         $user->save();
 
         WelcomeEmail::dispatch($user);
 
         return redirect()->route('login');
     }
-
 }
