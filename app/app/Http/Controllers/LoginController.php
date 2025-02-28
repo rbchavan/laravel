@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Rules\RecaptchaV3;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
 class LoginController extends Controller
 {
+
+
     #[Get(uri: '/login', name: 'login')]
     public function login()
     {
-
 
         return view('auth.login');
     }
@@ -23,10 +25,13 @@ class LoginController extends Controller
     public function loginVerify(Request $request)
     {
 
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'g-recaptcha-response' => ['required', new RecaptchaV3('submit')],
         ]);
+
+        $credentials = Arr::only($validated, ['email', 'password']);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
