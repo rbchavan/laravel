@@ -23,6 +23,6 @@ class WelcomeEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user->email)->queue(new RegisterationMail($this->user->name));
+        Mail::to($this->user->email)->send(new RegisterationMail($this->user->name));
     }
 }

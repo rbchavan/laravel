@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
 use App\Jobs\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,7 +44,7 @@ class RegisterController extends Controller
         $user->assignRole('user');
         $user->save();
 
-        WelcomeEmail::dispatch($user);
+        UserRegistered::dispatch($user);
 
         return redirect()->route('login');
     }
