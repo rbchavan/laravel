@@ -28,7 +28,6 @@ class RegisterationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: 'rahul@rahul.com',
             subject: 'Registeration Mail',
         );
     }
