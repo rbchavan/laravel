@@ -16,11 +16,14 @@ use Spatie\RouteAttributes\Attributes\Post;
 class TwoFactorController extends Controller
 {
 
-    #[Get(uri: '/2fa/setup', name: '2fa.show')]
+    #[Get(uri: '/2fa/setup', name: '2fa.show',middleware:['auth'])]
     public function show2fa()
     {
+
         $google2fa = new Google2FA();
         $user = Auth::user();
+
+
 
         if (!$user->two_factor_secret) {
             $secret = $google2fa->generateSecretKey();
@@ -29,7 +32,7 @@ class TwoFactorController extends Controller
         }
 
         $qrCodeUrl = $google2fa->getQRCodeUrl(
-            'YourAppName',
+            config('app.name'),
             $user->email,
             $secret
         );
@@ -45,7 +48,7 @@ class TwoFactorController extends Controller
         return view('auth.2fa_setup', compact('qrCode', 'secret'));
     }
 
-    #[Post(uri: '/enable/2fa', name: '2fa.enable')]
+    #[Post(uri: '/enable/2fa', name: '2fa.enable',middleware:['auth'])]
     public function enable2Fa(Request $request)
     {
         $request->validate(['secret' => 'required']);

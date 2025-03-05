@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Rules\RecaptchaV3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -34,13 +35,16 @@ class LoginController extends Controller
         $credentials = Arr::only($validated, ['email', 'password']);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
             $user = Auth::user();
             if ($user->two_factor_enabled) {
                 session(['2fa:user:id' => $user->id]);
+
                 Auth::logout();
+
                 return redirect()->route('2fa.verifyForm');
             }
+
+            $request->session()->regenerate();
             return redirect()->intended('/users');
         }
 

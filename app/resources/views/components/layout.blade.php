@@ -39,6 +39,11 @@
                         </button>
                     </form>
                 </li>
+                <li>
+                    <a href="{{ route('2fa.show') }}" class="text-gray-300 hover:text-white transition duration-300">
+                        2FA
+                    </a>
+                </li>
                 @endauth
             </ul>
         </div>
@@ -46,7 +51,7 @@
 
     <!-- Main Content Wrapper -->
     <div class="container mx-auto flex flex-grow space-x-4">
-    @auth
+        @auth
         <!-- Sidebar -->
         <aside class="w-1/4 bg-gray-800 text-white p-4 rounded-lg shadow-md">
             <h2 class="text-lg font-semibold text-center">Dashboard</h2>
