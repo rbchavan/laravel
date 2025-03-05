@@ -35,6 +35,12 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
+            if ($user->two_factor_enabled) {
+                session(['2fa:user:id' => $user->id]);
+                Auth::logout();
+                return redirect()->route('2fa.verifyForm');
+            }
             return redirect()->intended('/users');
         }
 

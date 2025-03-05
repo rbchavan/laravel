@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
+use PragmaRX\Google2FA\Google2FA;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -51,5 +53,12 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+    public function generateTwoFactorSecret()
+    {
+        $google2fa = new Google2FA();
+        $this->two_factor_secret = Crypt::encrypt($google2fa->generateSecretKey());
+        $this->two_factor_enabled = true;
+        $this->save();
     }
 }
