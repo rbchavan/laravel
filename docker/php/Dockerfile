@@ -23,6 +23,8 @@ RUN apk add --no-cache \
         ttf-liberation \
         nodejs \
         npm \   
+        imagemagick \
+        imagemagick-dev  \
 	;
 RUN set -eux; \
     install-php-extensions \
@@ -36,6 +38,7 @@ RUN set -eux; \
             amqp \
             ldap \
             xsl \
+            imagick
             ;
 # wkhtmltopdf copy bins from ext image
 COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/libwkhtmltox.so /bin/
