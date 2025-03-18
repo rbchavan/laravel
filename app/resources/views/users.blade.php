@@ -25,6 +25,33 @@
             <button onclick="toggleCreateForm()"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Create User</button>
         </div>
+        <div class="mb-4 flex justify-end space-x-4">
+            @impersonating($guard ?? null)
+            <form method="POST" action="{{ route('impersonate.leave') }}">
+                @csrf
+                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Stop Impersonating
+                </button>
+            </form>
+            @else
+            @canImpersonate($guard ?? null)
+            <form method="POST" action="{{ route('impersonate.start') }}" class="flex items-center space-x-2">
+                @csrf
+                <select name="user_id" class="bg-gray-800 text-white border border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="" disabled selected>Select a user</option>
+                    @foreach ($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Impersonate
+                </button>
+            </form>
+            @endCanImpersonate
+            @endImpersonating
+        </div>
+
+
 
         <div id="createUserForm" class="hidden bg-gray-900 p-4 rounded-lg mb-6">
             <form id="userForm">
@@ -76,25 +103,25 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                        <tr class="border border-gray-700 odd:bg-gray-800 even:bg-gray-700"
-                            id="user-{{ $user->id }}">
-                            <td class="border border-gray-600 px-4 py-2">{{ $user->id }}</td>
-                            <td class="border border-gray-600 px-4 py-2">{{ $user->name }}</td>
-                            <td class="border border-gray-600 px-4 py-2">{{ $user->email }}</td>
-                            <td class="border border-gray-600 px-4 py-2">
-                                <a href="{{ route('user.posts.index', ['user' => $user->id]) }}"
-                                    class="bg-teal-400 text-white px-3 py-1 rounded inline-block">
-                                    <i class="fa-solid fa-eye"></i> Post({{ $user->posts_count }})
-                                </a>
-                            </td>
+                    <tr class="border border-gray-700 odd:bg-gray-800 even:bg-gray-700"
+                        id="user-{{ $user->id }}">
+                        <td class="border border-gray-600 px-4 py-2">{{ $user->id }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ $user->name }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ $user->email }}</td>
+                        <td class="border border-gray-600 px-4 py-2">
+                            <a href="{{ route('user.posts.index', ['user' => $user->id]) }}"
+                                class="bg-teal-400 text-white px-3 py-1 rounded inline-block">
+                                <i class="fa-solid fa-eye"></i> Post({{ $user->posts_count }})
+                            </a>
+                        </td>
 
-                            <td class="border border-gray-600 px-4 py-2">
-                                <button class="delete-user bg-red-400 text-white px-3 py-1 rounded"
-                                    data-id="{{ $user->id }}">
-                                    <i class="fa-solid fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <td class="border border-gray-600 px-4 py-2">
+                            <button class="delete-user bg-red-400 text-white px-3 py-1 rounded"
+                                data-id="{{ $user->id }}">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
